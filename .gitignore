@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+backend/creds/
+*.pem
+*-credentials.json
+service-account*.json
+
+# Build outputs
+frontend/dist/
+*.local
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and debug
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Firebase (keep .firebaserc if you want project alias in repo)
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+
+# Testing and coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Deployment
+DEPLOYMENT.md
+
+# Misc
+*.tgz
+.cache/
