@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     google_cloud_project: str
     firebase_project_id: str
     gemini_location: str = "us-central1"
-    gemini_model: str = "gemini-1.5-pro"
+    gemini_model: str = "gemini-2.0-flash-001"
     max_context_messages: int = 30
 
     class Config:

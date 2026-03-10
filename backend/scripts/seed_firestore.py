@@ -32,7 +32,6 @@ def main():
     db = firestore.client()
 
     for org_slug, org_info in SEED_DATA.items():
-        print(f"Seeding organization: {org_slug}")
 
         # organizations/{orgSlug}
         org_ref = db.collection("organizations").document(org_slug)
@@ -53,8 +52,6 @@ def main():
             user_record = auth.get_user_by_email(u["email"])
             uid = user_record.uid
             user_ids.append(uid)
-
-            print(f"  - Linking user {u['email']} (uid={uid})")
 
             # organizations/{orgSlug}/users/{uid}
             users_collection.document(uid).set(
@@ -120,9 +117,6 @@ def main():
             add_message("lisa@acme.com", "We're already on GCP, should we consider Memorystore?")
             add_message("sarah@acme.com", "@Gemini what do you recommend?")
 
-        print(f"Finished seeding org {org_slug}")
-
-    print("Done.")
 
 
 if __name__ == "__main__":

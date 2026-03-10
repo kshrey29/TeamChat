@@ -1,6 +1,10 @@
 from datetime import datetime, timezone
+import logging
+import sys
 import time
 from typing import AsyncGenerator, List, Optional
+
+logger = logging.getLogger(__name__)
 
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from fastapi.responses import StreamingResponse
@@ -140,6 +144,13 @@ async def complete_chat_with_ai(
                 # Successful completion, exit after streaming all chunks
                 return
             except Exception as exc:
+                logger.exception(
+                    "Gemini generate_content failed (attempt %s/%s): %s",
+                    attempt,
+                    max_retries,
+                    exc,
+                )
+                
                 if attempt < max_retries:
                     delay = base_delay * (2 ** (attempt - 1))
                     ai_message_ref.update(

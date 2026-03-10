@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -7,6 +9,8 @@ from .routes_ai import router as ai_router
 
 
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(title="TeamChat AI Backend")
 
