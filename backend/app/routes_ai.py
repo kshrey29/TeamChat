@@ -74,12 +74,6 @@ async def complete_chat_with_ai(
     message_docs = list(messages_query.stream())
     message_docs.reverse()
 
-    if not message_docs:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No messages available to provide context",
-        )
-
     formatted_lines: List[str] = []
     last_sender_name = "Unknown"
 
@@ -94,7 +88,7 @@ async def complete_chat_with_ai(
         formatted_lines.append(f"[{timestamp}] {sender_name}: {content}")
         last_sender_name = sender_name
 
-    conversation_block = "\n".join(formatted_lines)
+    conversation_block = "\n".join(formatted_lines) if formatted_lines else "(No messages yet in this room.)"
 
     system_instructions = (
         "You are Gemini AI participating in a multi-user team chat. "
@@ -102,13 +96,20 @@ async def complete_chat_with_ai(
         "Address users by name where appropriate. Be concise and helpful."
     )
 
-    prompt = (
-        f"{system_instructions}\n\n"
-        f"[Conversation History]\n"
-        f"{conversation_block}\n"
-        f"---\n"
-        f"Respond to the conversation. The last message is from {last_sender_name}."
-    )
+    if formatted_lines:
+        prompt = (
+            f"{system_instructions}\n\n"
+            f"[Conversation History]\n"
+            f"{conversation_block}\n"
+            f"---\n"
+            f"Respond to the conversation. The last message is from {last_sender_name}."
+        )
+    else:
+        prompt = (
+            f"{system_instructions}\n\n"
+            "This room has no message history yet. A user has just invoked you. "
+            "Greet the team briefly and offer to help with anything they need."
+        )
 
     model = get_gemini_model()
 
